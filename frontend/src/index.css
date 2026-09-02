@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,680&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --color-paper: #F4F6F4;
+  --color-paper-raised: #FFFFFF;
+  --color-ink: #12141C;
+  --color-ink-soft: #4B5160;
+  --color-ink-faint: #8A8F9C;
+  --color-line: #E2E3DE;
+  --color-line-strong: #CBCEC7;
+
+  --color-saffron: #FF7A29;
+  --color-saffron-soft: #FFE7D3;
+  --color-indigo: #33389B;
+  --color-indigo-soft: #E4E5F5;
+  --color-indigo-deep: #1C1F5C;
+  --color-signal: #16915F;
+  --color-signal-soft: #DCF3E7;
+  --color-amber: #C98A00;
+  --color-amber-soft: #FBEBC8;
+  --color-rose: #C4404B;
+  --color-rose-soft: #F8DEDF;
+
+  --shadow-card: 0 1px 2px rgba(18,20,28,0.04), 0 8px 24px -12px rgba(18,20,28,0.12);
+  --shadow-pop: 0 12px 32px -8px rgba(18,20,28,0.22);
+}
+
+@layer base {
+  * { -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink-soft);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    letter-spacing: -0.01em;
+  }
+  ::selection { background: var(--color-saffron-soft); color: var(--color-ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .route-line {
+    background-image: repeating-linear-gradient(to bottom, var(--color-line-strong) 0 6px, transparent 6px 12px);
+  }
+  .route-line-h {
+    background-image: repeating-linear-gradient(to right, var(--color-line-strong) 0 6px, transparent 6px 12px);
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .tabular { font-variant-numeric: tabular-nums; }
+}
