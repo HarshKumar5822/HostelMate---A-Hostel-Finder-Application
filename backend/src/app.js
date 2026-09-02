@@ -11,6 +11,7 @@ const ownerRoutes = require('./routes/ownerRoutes');
 const insightsRoutes = require('./routes/insightsRoutes');
 const savedRoutes = require('./routes/savedRoutes');
 const compareRoutes = require('./routes/compareRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
@@ -20,8 +21,8 @@ app.use(helmet());
 app.use(express.json({ limit: '2mb' }));
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
-const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173').split(',');
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173,https://*.vercel.app,https://*.netlify.app').split(',');
+app.use(cors({ origin: true, credentials: true }));
 
 const apiLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 300 });
 app.use('/api', apiLimiter);
@@ -39,6 +40,7 @@ app.use('/api/owner', ownerRoutes);
 app.use('/api/insights', insightsRoutes);
 app.use('/api/saved', savedRoutes);
 app.use('/api/compare', compareRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

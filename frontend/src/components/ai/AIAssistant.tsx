@@ -82,12 +82,37 @@ export default function AIAssistant() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages, open]);
 
-  const send = (text: string) => {
+  const send = async (text: string) => {
     if (!text.trim()) return;
     const userMsg: ChatMessage = { id: crypto.randomUUID(), role: 'user', text };
     setMessages((m) => [...m, userMsg]);
     setInput('');
-    setTimeout(() => setMessages((m) => [...m, mockAnswer(text)]), 450);
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const res = await fetch(`${apiUrl}/ai/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: text }),
+      });
+      const data = await res.json();
+      if (data.success && data.reply) {
+        setMessages((m) => [
+          ...m,
+          {
+            id: crypto.randomUUID(),
+            role: 'assistant',
+            text: data.reply,
+            hostels: data.hostels,
+          },
+        ]);
+        return;
+      }
+    } catch (e) {
+      // Local fallback if API server is not running
+    }
+
+    setTimeout(() => setMessages((m) => [...m, mockAnswer(text)]), 350);
   };
 
   return (
