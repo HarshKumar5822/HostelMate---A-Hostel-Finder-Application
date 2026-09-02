@@ -34,7 +34,7 @@ exports.chatWithAI = async (req, res, next) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            model: 'llama-3.3-70b-versatile',
+            model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
             messages: [
               {
                 role: 'system',
@@ -52,7 +52,7 @@ exports.chatWithAI = async (req, res, next) => {
           return res.json({
             success: true,
             reply: data.choices[0].message.content,
-            source: 'groq-llama3',
+            source: 'groq-ai',
           });
         }
       } catch (err) {
